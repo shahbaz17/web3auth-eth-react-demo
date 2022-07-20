@@ -37,8 +37,12 @@ function App() {
       uiConsole('web3auth not initialized yet')
       return
     }
-    const web3authProvider = await web3auth.connect()
-    setProvider(web3authProvider)
+    // const web3authProvider = await web3auth.connect()
+    // setProvider(web3authProvider)
+    await web3auth.connect().then(web3authProvider => {
+      setProvider(web3authProvider)
+      getUserInfo()
+    })
   }
 
   const getUserInfo = async () => {
@@ -47,7 +51,7 @@ function App() {
       return
     }
     const user = await web3auth.getUserInfo()
-    console.log(user)
+    // console.log(JSON.stringify(user, null, 2))
     uiConsole(user)
   }
 
@@ -99,21 +103,6 @@ function App() {
     uiConsole(signedMessage)
   }
 
-  const signTransaction = async () => {
-    if (!provider) {
-      uiConsole('provider not initialized yet')
-      return
-    }
-    const web3 = new Web3(provider)
-    const accounts = await web3.eth.getAccounts()
-    const txRes = await web3.eth.signTransaction({
-      from: accounts[0],
-      to: accounts[0],
-      value: web3.utils.toWei('0.01'),
-    })
-    uiConsole(txRes.raw)
-  }
-
   const sendTransaction = async () => {
     if (!provider) {
       uiConsole('provider not initialized yet')
@@ -139,28 +128,38 @@ function App() {
 
   const loggedInView = (
     <>
-      <button onClick={getUserInfo} className="card">
-        Get User Info
-      </button>
-      <button onClick={getAccounts} className="card">
-        Get Accounts
-      </button>
-      <button onClick={getBalance} className="card">
-        Get Balance
-      </button>
-      <button onClick={signMessage} className="card">
-        Sign Message
-      </button>
-      <button onClick={signTransaction} className="card">
-        Sign Transaction
-      </button>
-      <button onClick={sendTransaction} className="card">
-        Send Transaction
-      </button>
-
-      <button onClick={logout} className="card">
-        Log Out
-      </button>
+      <div className="flex-container">
+        <div>
+          <button onClick={getUserInfo} className="card">
+            Get User Info
+          </button>
+        </div>
+        <div>
+          <button onClick={getAccounts} className="card">
+            Get Accounts
+          </button>
+        </div>
+        <div>
+          <button onClick={getBalance} className="card">
+            Get Balance
+          </button>
+        </div>
+        <div>
+          <button onClick={signMessage} className="card">
+            Sign Message
+          </button>
+        </div>
+        <div>
+          <button onClick={sendTransaction} className="card">
+            Send Transaction
+          </button>
+        </div>
+        <div>
+          <button onClick={logout} className="card">
+            Log Out
+          </button>
+        </div>
+      </div>
 
       <div id="console" style={{whiteSpace: 'pre-line'}}>
         <p style={{whiteSpace: 'pre-line'}}></p>
@@ -187,7 +186,7 @@ function App() {
 
       <footer className="footer">
         <a
-          href="https://github.com/Web3Auth/Web3Auth/tree/master/examples/react-app"
+          href="https://github.com/shahbaz17/web3auth-eth-react-demo"
           target="_blank"
           rel="noopener noreferrer"
         >
