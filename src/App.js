@@ -17,7 +17,7 @@ function App() {
           chainConfig: {
             chainNamespace: 'eip155',
             chainId: '0x3', // ropsten, use '0x1' if don't want to use Infura/Ropsten.
-            rpcTarget: `https://ropsten.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`, // use 'https://rpc.ankr.com/eth' if don't want to use Infura/Ropsten.
+            rpcTarget: 'https://rpc.ankr.com/eth_ropsten', // use 'https://rpc.ankr.com/eth' if don't want to use Infura/Ropsten.
           },
         })
 
